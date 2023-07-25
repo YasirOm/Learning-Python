@@ -1,0 +1,42 @@
+import datetime
+import time
+import os
+
+def get_alarm_time():
+    """Get the user input for the alarm time."""
+    while True:
+        try:
+            time_str = input("Enter the alarm time in HH:MM format (e.g., 07:30): ")
+            alarm_time = datetime.datetime.strptime(time_str, "%H:%M").time()
+            return alarm_time
+        except ValueError:
+            print("Invalid input format. Please use HH:MM format (e.g., 07:30).")
+
+def wait_for_alarm(alarm_time):
+    """Wait until the alarm time is reached."""
+    while True:
+        now = datetime.datetime.now().time()
+        if now >= alarm_time:
+            break
+        time.sleep(1)
+
+def play_alarm_sound():
+    """Play the alarm sound."""
+    # The following command plays a system alert sound on macOS.
+    os.system("afplay /System/Library/Sounds/Glass.aiff")
+
+def main():
+    print("Welcome to the Alarm Clock!")
+
+    alarm_time = get_alarm_time()
+    print(f"Alarm set for {alarm_time.strftime('%H:%M')}.")
+
+    wait_for_alarm(alarm_time)
+    print("Time's up! ALARM!")
+
+    play_alarm_sound()
+    print("Alarm sound finished.")
+
+if __name__ == "__main__":
+    main()
+    
